@@ -1,8 +1,6 @@
-﻿using Microsoft.Owin;
-using Owin;
+﻿using Owin;
 
-[assembly: OwinStartupAttribute(typeof(MovApp.Startup))]
-namespace MovApp
+namespace IdentitySample
 {
     public partial class Startup
     {

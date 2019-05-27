@@ -1,0 +1,709 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="__MigrationHistory">
+          <Key>
+            <PropertyRef Name="MigrationId" />
+            <PropertyRef Name="ContextKey" />
+          </Key>
+          <Property Name="MigrationId" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="ContextKey" Type="nvarchar" MaxLength="300" Nullable="false" />
+          <Property Name="Model" Type="varbinary(max)" Nullable="false" />
+          <Property Name="ProductVersion" Type="nvarchar" MaxLength="32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Creators">
+          <Key>
+            <PropertyRef Name="CreatorId" />
+          </Key>
+          <Property Name="CreatorId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="Surname" Type="nvarchar(max)" />
+          <Property Name="Birthday" Type="datetime" Nullable="false" />
+          <Property Name="MoviesViewModel_MovieId" Type="int" />
+        </EntityType>
+        <EntityType Name="Genres">
+          <Key>
+            <PropertyRef Name="GenreId" />
+          </Key>
+          <Property Name="GenreId" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GenreName" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="MovieCheckBoxViewModels">
+          <Key>
+            <PropertyRef Name="CheckBoxId" />
+          </Key>
+          <Property Name="CheckBoxId" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="Checked" Type="bit" Nullable="false" />
+          <Property Name="MoviesViewModel_MovieId" Type="int" />
+        </EntityType>
+        <EntityType Name="MovieCreatorProfessions">
+          <Key>
+            <PropertyRef Name="MovieCreatorProfessionId" />
+          </Key>
+          <Property Name="MovieCreatorProfessionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MovieId" Type="int" Nullable="false" />
+          <Property Name="CreatorId" Type="int" Nullable="false" />
+          <Property Name="ProfessionId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MovieGenres">
+          <Key>
+            <PropertyRef Name="MovieGenreId" />
+          </Key>
+          <Property Name="MovieGenreId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MovieId" Type="int" Nullable="false" />
+          <Property Name="GenreId" Type="smallint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Movies">
+          <Key>
+            <PropertyRef Name="MovieId" />
+          </Key>
+          <Property Name="MovieId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Name_org" Type="nvarchar(max)" />
+          <Property Name="Premiere" Type="datetime" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="MoviesViewModels">
+          <Key>
+            <PropertyRef Name="MovieId" />
+          </Key>
+          <Property Name="MovieId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="Name_org" Type="nvarchar(max)" />
+          <Property Name="Premiere" Type="datetime" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Professions">
+          <Key>
+            <PropertyRef Name="ProfessionId" />
+          </Key>
+          <Property Name="ProfessionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="ProfessionTypeId" Type="int" Nullable="false" />
+          <Property Name="MoviesViewModel_MovieId" Type="int" />
+        </EntityType>
+        <EntityType Name="ProfessionTypes">
+          <Key>
+            <PropertyRef Name="ProfessionTypeId" />
+          </Key>
+          <Property Name="ProfessionTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TypeName" Type="nvarchar(max)" />
+          <Property Name="MoviesViewModel_MovieId" Type="int" />
+        </EntityType>
+        <Association Name="FK_dbo_Creators_dbo_MoviesViewModels_MoviesViewModel_MovieId">
+          <End Role="MoviesViewModels" Type="Self.MoviesViewModels" Multiplicity="0..1" />
+          <End Role="Creators" Type="Self.Creators" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MoviesViewModels">
+              <PropertyRef Name="MovieId" />
+            </Principal>
+            <Dependent Role="Creators">
+              <PropertyRef Name="MoviesViewModel_MovieId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_MovieCheckBoxViewModels_dbo_MoviesViewModels_MoviesViewModel_MovieId">
+          <End Role="MoviesViewModels" Type="Self.MoviesViewModels" Multiplicity="0..1" />
+          <End Role="MovieCheckBoxViewModels" Type="Self.MovieCheckBoxViewModels" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MoviesViewModels">
+              <PropertyRef Name="MovieId" />
+            </Principal>
+            <Dependent Role="MovieCheckBoxViewModels">
+              <PropertyRef Name="MoviesViewModel_MovieId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_MovieCreatorProfessions_dbo_Creators_CreatorId">
+          <End Role="Creators" Type="Self.Creators" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="MovieCreatorProfessions" Type="Self.MovieCreatorProfessions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Creators">
+              <PropertyRef Name="CreatorId" />
+            </Principal>
+            <Dependent Role="MovieCreatorProfessions">
+              <PropertyRef Name="CreatorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_MovieCreatorProfessions_dbo_Movies_MovieId">
+          <End Role="Movies" Type="Self.Movies" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="MovieCreatorProfessions" Type="Self.MovieCreatorProfessions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Movies">
+              <PropertyRef Name="MovieId" />
+            </Principal>
+            <Dependent Role="MovieCreatorProfessions">
+              <PropertyRef Name="MovieId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_MovieCreatorProfessions_dbo_Professions_ProfessionId">
+          <End Role="Professions" Type="Self.Professions" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="MovieCreatorProfessions" Type="Self.MovieCreatorProfessions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Professions">
+              <PropertyRef Name="ProfessionId" />
+            </Principal>
+            <Dependent Role="MovieCreatorProfessions">
+              <PropertyRef Name="ProfessionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_MovieGenres_dbo_Genres_GenreId">
+          <End Role="Genres" Type="Self.Genres" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="MovieGenres" Type="Self.MovieGenres" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Genres">
+              <PropertyRef Name="GenreId" />
+            </Principal>
+            <Dependent Role="MovieGenres">
+              <PropertyRef Name="GenreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_MovieGenres_dbo_Movies_MovieId">
+          <End Role="Movies" Type="Self.Movies" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="MovieGenres" Type="Self.MovieGenres" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Movies">
+              <PropertyRef Name="MovieId" />
+            </Principal>
+            <Dependent Role="MovieGenres">
+              <PropertyRef Name="MovieId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Professions_dbo_MoviesViewModels_MoviesViewModel_MovieId">
+          <End Role="MoviesViewModels" Type="Self.MoviesViewModels" Multiplicity="0..1" />
+          <End Role="Professions" Type="Self.Professions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MoviesViewModels">
+              <PropertyRef Name="MovieId" />
+            </Principal>
+            <Dependent Role="Professions">
+              <PropertyRef Name="MoviesViewModel_MovieId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Professions_dbo_ProfessionTypes_ProfessionTypeId">
+          <End Role="ProfessionTypes" Type="Self.ProfessionTypes" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Professions" Type="Self.Professions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProfessionTypes">
+              <PropertyRef Name="ProfessionTypeId" />
+            </Principal>
+            <Dependent Role="Professions">
+              <PropertyRef Name="ProfessionTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_ProfessionTypes_dbo_MoviesViewModels_MoviesViewModel_MovieId">
+          <End Role="MoviesViewModels" Type="Self.MoviesViewModels" Multiplicity="0..1" />
+          <End Role="ProfessionTypes" Type="Self.ProfessionTypes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MoviesViewModels">
+              <PropertyRef Name="MovieId" />
+            </Principal>
+            <Dependent Role="ProfessionTypes">
+              <PropertyRef Name="MoviesViewModel_MovieId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Creators" EntityType="Self.Creators" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Genres" EntityType="Self.Genres" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MovieCheckBoxViewModels" EntityType="Self.MovieCheckBoxViewModels" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MovieCreatorProfessions" EntityType="Self.MovieCreatorProfessions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MovieGenres" EntityType="Self.MovieGenres" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Movies" EntityType="Self.Movies" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MoviesViewModels" EntityType="Self.MoviesViewModels" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Professions" EntityType="Self.Professions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProfessionTypes" EntityType="Self.ProfessionTypes" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_dbo_Creators_dbo_MoviesViewModels_MoviesViewModel_MovieId" Association="Self.FK_dbo_Creators_dbo_MoviesViewModels_MoviesViewModel_MovieId">
+            <End Role="MoviesViewModels" EntitySet="MoviesViewModels" />
+            <End Role="Creators" EntitySet="Creators" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_MovieCheckBoxViewModels_dbo_MoviesViewModels_MoviesViewModel_MovieId" Association="Self.FK_dbo_MovieCheckBoxViewModels_dbo_MoviesViewModels_MoviesViewModel_MovieId">
+            <End Role="MoviesViewModels" EntitySet="MoviesViewModels" />
+            <End Role="MovieCheckBoxViewModels" EntitySet="MovieCheckBoxViewModels" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_MovieCreatorProfessions_dbo_Creators_CreatorId" Association="Self.FK_dbo_MovieCreatorProfessions_dbo_Creators_CreatorId">
+            <End Role="Creators" EntitySet="Creators" />
+            <End Role="MovieCreatorProfessions" EntitySet="MovieCreatorProfessions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_MovieCreatorProfessions_dbo_Movies_MovieId" Association="Self.FK_dbo_MovieCreatorProfessions_dbo_Movies_MovieId">
+            <End Role="Movies" EntitySet="Movies" />
+            <End Role="MovieCreatorProfessions" EntitySet="MovieCreatorProfessions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_MovieCreatorProfessions_dbo_Professions_ProfessionId" Association="Self.FK_dbo_MovieCreatorProfessions_dbo_Professions_ProfessionId">
+            <End Role="Professions" EntitySet="Professions" />
+            <End Role="MovieCreatorProfessions" EntitySet="MovieCreatorProfessions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_MovieGenres_dbo_Genres_GenreId" Association="Self.FK_dbo_MovieGenres_dbo_Genres_GenreId">
+            <End Role="Genres" EntitySet="Genres" />
+            <End Role="MovieGenres" EntitySet="MovieGenres" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_MovieGenres_dbo_Movies_MovieId" Association="Self.FK_dbo_MovieGenres_dbo_Movies_MovieId">
+            <End Role="Movies" EntitySet="Movies" />
+            <End Role="MovieGenres" EntitySet="MovieGenres" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Professions_dbo_MoviesViewModels_MoviesViewModel_MovieId" Association="Self.FK_dbo_Professions_dbo_MoviesViewModels_MoviesViewModel_MovieId">
+            <End Role="MoviesViewModels" EntitySet="MoviesViewModels" />
+            <End Role="Professions" EntitySet="Professions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Professions_dbo_ProfessionTypes_ProfessionTypeId" Association="Self.FK_dbo_Professions_dbo_ProfessionTypes_ProfessionTypeId">
+            <End Role="ProfessionTypes" EntitySet="ProfessionTypes" />
+            <End Role="Professions" EntitySet="Professions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_ProfessionTypes_dbo_MoviesViewModels_MoviesViewModel_MovieId" Association="Self.FK_dbo_ProfessionTypes_dbo_MoviesViewModels_MoviesViewModel_MovieId">
+            <End Role="MoviesViewModels" EntitySet="MoviesViewModels" />
+            <End Role="ProfessionTypes" EntitySet="ProfessionTypes" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="C__MigrationHistory">
+          <Key>
+            <PropertyRef Name="MigrationId" />
+            <PropertyRef Name="ContextKey" />
+          </Key>
+          <Property Name="MigrationId" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ContextKey" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Model" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+          <Property Name="ProductVersion" Type="String" MaxLength="32" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Creators">
+          <Key>
+            <PropertyRef Name="CreatorId" />
+          </Key>
+          <Property Name="CreatorId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Surname" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Birthday" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="MoviesViewModel_MovieId" Type="Int32" />
+          <NavigationProperty Name="MoviesViewModels" Relationship="Self.FK_dbo_Creators_dbo_MoviesViewModels_MoviesViewModel_MovieId" FromRole="Creators" ToRole="MoviesViewModels" />
+          <NavigationProperty Name="MovieCreatorProfessions" Relationship="Self.FK_dbo_MovieCreatorProfessions_dbo_Creators_CreatorId" FromRole="Creators" ToRole="MovieCreatorProfessions" />
+        </EntityType>
+        <EntityType Name="Genres">
+          <Key>
+            <PropertyRef Name="GenreId" />
+          </Key>
+          <Property Name="GenreId" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GenreName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="MovieGenres" Relationship="Self.FK_dbo_MovieGenres_dbo_Genres_GenreId" FromRole="Genres" ToRole="MovieGenres" />
+        </EntityType>
+        <EntityType Name="MovieCheckBoxViewModels">
+          <Key>
+            <PropertyRef Name="CheckBoxId" />
+          </Key>
+          <Property Name="CheckBoxId" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Checked" Type="Boolean" Nullable="false" />
+          <Property Name="MoviesViewModel_MovieId" Type="Int32" />
+          <NavigationProperty Name="MoviesViewModels" Relationship="Self.FK_dbo_MovieCheckBoxViewModels_dbo_MoviesViewModels_MoviesViewModel_MovieId" FromRole="MovieCheckBoxViewModels" ToRole="MoviesViewModels" />
+        </EntityType>
+        <EntityType Name="MovieCreatorProfessions">
+          <Key>
+            <PropertyRef Name="MovieCreatorProfessionId" />
+          </Key>
+          <Property Name="MovieCreatorProfessionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MovieId" Type="Int32" Nullable="false" />
+          <Property Name="CreatorId" Type="Int32" Nullable="false" />
+          <Property Name="ProfessionId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Creators" Relationship="Self.FK_dbo_MovieCreatorProfessions_dbo_Creators_CreatorId" FromRole="MovieCreatorProfessions" ToRole="Creators" />
+          <NavigationProperty Name="Movies" Relationship="Self.FK_dbo_MovieCreatorProfessions_dbo_Movies_MovieId" FromRole="MovieCreatorProfessions" ToRole="Movies" />
+          <NavigationProperty Name="Professions" Relationship="Self.FK_dbo_MovieCreatorProfessions_dbo_Professions_ProfessionId" FromRole="MovieCreatorProfessions" ToRole="Professions" />
+        </EntityType>
+        <EntityType Name="MovieGenres">
+          <Key>
+            <PropertyRef Name="MovieGenreId" />
+          </Key>
+          <Property Name="MovieGenreId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MovieId" Type="Int32" Nullable="false" />
+          <Property Name="GenreId" Type="Int16" Nullable="false" />
+          <NavigationProperty Name="Genres" Relationship="Self.FK_dbo_MovieGenres_dbo_Genres_GenreId" FromRole="MovieGenres" ToRole="Genres" />
+          <NavigationProperty Name="Movies" Relationship="Self.FK_dbo_MovieGenres_dbo_Movies_MovieId" FromRole="MovieGenres" ToRole="Movies" />
+        </EntityType>
+        <EntityType Name="Movies">
+          <Key>
+            <PropertyRef Name="MovieId" />
+          </Key>
+          <Property Name="MovieId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name_org" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Premiere" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="MovieCreatorProfessions" Relationship="Self.FK_dbo_MovieCreatorProfessions_dbo_Movies_MovieId" FromRole="Movies" ToRole="MovieCreatorProfessions" />
+          <NavigationProperty Name="MovieGenres" Relationship="Self.FK_dbo_MovieGenres_dbo_Movies_MovieId" FromRole="Movies" ToRole="MovieGenres" />
+        </EntityType>
+        <EntityType Name="MoviesViewModels">
+          <Key>
+            <PropertyRef Name="MovieId" />
+          </Key>
+          <Property Name="MovieId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Name_org" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Premiere" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Creators" Relationship="Self.FK_dbo_Creators_dbo_MoviesViewModels_MoviesViewModel_MovieId" FromRole="MoviesViewModels" ToRole="Creators" />
+          <NavigationProperty Name="MovieCheckBoxViewModels" Relationship="Self.FK_dbo_MovieCheckBoxViewModels_dbo_MoviesViewModels_MoviesViewModel_MovieId" FromRole="MoviesViewModels" ToRole="MovieCheckBoxViewModels" />
+          <NavigationProperty Name="Professions" Relationship="Self.FK_dbo_Professions_dbo_MoviesViewModels_MoviesViewModel_MovieId" FromRole="MoviesViewModels" ToRole="Professions" />
+          <NavigationProperty Name="ProfessionTypes" Relationship="Self.FK_dbo_ProfessionTypes_dbo_MoviesViewModels_MoviesViewModel_MovieId" FromRole="MoviesViewModels" ToRole="ProfessionTypes" />
+        </EntityType>
+        <EntityType Name="Professions">
+          <Key>
+            <PropertyRef Name="ProfessionId" />
+          </Key>
+          <Property Name="ProfessionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ProfessionTypeId" Type="Int32" Nullable="false" />
+          <Property Name="MoviesViewModel_MovieId" Type="Int32" />
+          <NavigationProperty Name="MovieCreatorProfessions" Relationship="Self.FK_dbo_MovieCreatorProfessions_dbo_Professions_ProfessionId" FromRole="Professions" ToRole="MovieCreatorProfessions" />
+          <NavigationProperty Name="MoviesViewModels" Relationship="Self.FK_dbo_Professions_dbo_MoviesViewModels_MoviesViewModel_MovieId" FromRole="Professions" ToRole="MoviesViewModels" />
+          <NavigationProperty Name="ProfessionTypes" Relationship="Self.FK_dbo_Professions_dbo_ProfessionTypes_ProfessionTypeId" FromRole="Professions" ToRole="ProfessionTypes" />
+        </EntityType>
+        <EntityType Name="ProfessionTypes">
+          <Key>
+            <PropertyRef Name="ProfessionTypeId" />
+          </Key>
+          <Property Name="ProfessionTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TypeName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MoviesViewModel_MovieId" Type="Int32" />
+          <NavigationProperty Name="MoviesViewModels" Relationship="Self.FK_dbo_ProfessionTypes_dbo_MoviesViewModels_MoviesViewModel_MovieId" FromRole="ProfessionTypes" ToRole="MoviesViewModels" />
+          <NavigationProperty Name="Professions" Relationship="Self.FK_dbo_Professions_dbo_ProfessionTypes_ProfessionTypeId" FromRole="ProfessionTypes" ToRole="Professions" />
+        </EntityType>
+        <Association Name="FK_dbo_Creators_dbo_MoviesViewModels_MoviesViewModel_MovieId">
+          <End Role="MoviesViewModels" Type="Self.MoviesViewModels" Multiplicity="0..1" />
+          <End Role="Creators" Type="Self.Creators" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MoviesViewModels">
+              <PropertyRef Name="MovieId" />
+            </Principal>
+            <Dependent Role="Creators">
+              <PropertyRef Name="MoviesViewModel_MovieId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_MovieCreatorProfessions_dbo_Creators_CreatorId">
+          <End Role="Creators" Type="Self.Creators" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="MovieCreatorProfessions" Type="Self.MovieCreatorProfessions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Creators">
+              <PropertyRef Name="CreatorId" />
+            </Principal>
+            <Dependent Role="MovieCreatorProfessions">
+              <PropertyRef Name="CreatorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_MovieGenres_dbo_Genres_GenreId">
+          <End Role="Genres" Type="Self.Genres" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="MovieGenres" Type="Self.MovieGenres" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Genres">
+              <PropertyRef Name="GenreId" />
+            </Principal>
+            <Dependent Role="MovieGenres">
+              <PropertyRef Name="GenreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_MovieCheckBoxViewModels_dbo_MoviesViewModels_MoviesViewModel_MovieId">
+          <End Role="MoviesViewModels" Type="Self.MoviesViewModels" Multiplicity="0..1" />
+          <End Role="MovieCheckBoxViewModels" Type="Self.MovieCheckBoxViewModels" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MoviesViewModels">
+              <PropertyRef Name="MovieId" />
+            </Principal>
+            <Dependent Role="MovieCheckBoxViewModels">
+              <PropertyRef Name="MoviesViewModel_MovieId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_MovieCreatorProfessions_dbo_Movies_MovieId">
+          <End Role="Movies" Type="Self.Movies" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="MovieCreatorProfessions" Type="Self.MovieCreatorProfessions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Movies">
+              <PropertyRef Name="MovieId" />
+            </Principal>
+            <Dependent Role="MovieCreatorProfessions">
+              <PropertyRef Name="MovieId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_MovieCreatorProfessions_dbo_Professions_ProfessionId">
+          <End Role="Professions" Type="Self.Professions" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="MovieCreatorProfessions" Type="Self.MovieCreatorProfessions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Professions">
+              <PropertyRef Name="ProfessionId" />
+            </Principal>
+            <Dependent Role="MovieCreatorProfessions">
+              <PropertyRef Name="ProfessionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_MovieGenres_dbo_Movies_MovieId">
+          <End Role="Movies" Type="Self.Movies" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="MovieGenres" Type="Self.MovieGenres" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Movies">
+              <PropertyRef Name="MovieId" />
+            </Principal>
+            <Dependent Role="MovieGenres">
+              <PropertyRef Name="MovieId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Professions_dbo_MoviesViewModels_MoviesViewModel_MovieId">
+          <End Role="MoviesViewModels" Type="Self.MoviesViewModels" Multiplicity="0..1" />
+          <End Role="Professions" Type="Self.Professions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MoviesViewModels">
+              <PropertyRef Name="MovieId" />
+            </Principal>
+            <Dependent Role="Professions">
+              <PropertyRef Name="MoviesViewModel_MovieId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_ProfessionTypes_dbo_MoviesViewModels_MoviesViewModel_MovieId">
+          <End Role="MoviesViewModels" Type="Self.MoviesViewModels" Multiplicity="0..1" />
+          <End Role="ProfessionTypes" Type="Self.ProfessionTypes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MoviesViewModels">
+              <PropertyRef Name="MovieId" />
+            </Principal>
+            <Dependent Role="ProfessionTypes">
+              <PropertyRef Name="MoviesViewModel_MovieId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Professions_dbo_ProfessionTypes_ProfessionTypeId">
+          <End Role="ProfessionTypes" Type="Self.ProfessionTypes" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Professions" Type="Self.Professions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProfessionTypes">
+              <PropertyRef Name="ProfessionTypeId" />
+            </Principal>
+            <Dependent Role="Professions">
+              <PropertyRef Name="ProfessionTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DataModel_MovApp" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="C__MigrationHistory" EntityType="Self.C__MigrationHistory" />
+          <EntitySet Name="Creators" EntityType="Self.Creators" />
+          <EntitySet Name="Genres" EntityType="Self.Genres" />
+          <EntitySet Name="MovieCheckBoxViewModels" EntityType="Self.MovieCheckBoxViewModels" />
+          <EntitySet Name="MovieCreatorProfessions" EntityType="Self.MovieCreatorProfessions" />
+          <EntitySet Name="MovieGenres" EntityType="Self.MovieGenres" />
+          <EntitySet Name="Movies" EntityType="Self.Movies" />
+          <EntitySet Name="MoviesViewModels" EntityType="Self.MoviesViewModels" />
+          <EntitySet Name="Professions" EntityType="Self.Professions" />
+          <EntitySet Name="ProfessionTypes" EntityType="Self.ProfessionTypes" />
+          <AssociationSet Name="FK_dbo_Creators_dbo_MoviesViewModels_MoviesViewModel_MovieId" Association="Self.FK_dbo_Creators_dbo_MoviesViewModels_MoviesViewModel_MovieId">
+            <End Role="MoviesViewModels" EntitySet="MoviesViewModels" />
+            <End Role="Creators" EntitySet="Creators" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_MovieCreatorProfessions_dbo_Creators_CreatorId" Association="Self.FK_dbo_MovieCreatorProfessions_dbo_Creators_CreatorId">
+            <End Role="Creators" EntitySet="Creators" />
+            <End Role="MovieCreatorProfessions" EntitySet="MovieCreatorProfessions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_MovieGenres_dbo_Genres_GenreId" Association="Self.FK_dbo_MovieGenres_dbo_Genres_GenreId">
+            <End Role="Genres" EntitySet="Genres" />
+            <End Role="MovieGenres" EntitySet="MovieGenres" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_MovieCheckBoxViewModels_dbo_MoviesViewModels_MoviesViewModel_MovieId" Association="Self.FK_dbo_MovieCheckBoxViewModels_dbo_MoviesViewModels_MoviesViewModel_MovieId">
+            <End Role="MoviesViewModels" EntitySet="MoviesViewModels" />
+            <End Role="MovieCheckBoxViewModels" EntitySet="MovieCheckBoxViewModels" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_MovieCreatorProfessions_dbo_Movies_MovieId" Association="Self.FK_dbo_MovieCreatorProfessions_dbo_Movies_MovieId">
+            <End Role="Movies" EntitySet="Movies" />
+            <End Role="MovieCreatorProfessions" EntitySet="MovieCreatorProfessions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_MovieCreatorProfessions_dbo_Professions_ProfessionId" Association="Self.FK_dbo_MovieCreatorProfessions_dbo_Professions_ProfessionId">
+            <End Role="Professions" EntitySet="Professions" />
+            <End Role="MovieCreatorProfessions" EntitySet="MovieCreatorProfessions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_MovieGenres_dbo_Movies_MovieId" Association="Self.FK_dbo_MovieGenres_dbo_Movies_MovieId">
+            <End Role="Movies" EntitySet="Movies" />
+            <End Role="MovieGenres" EntitySet="MovieGenres" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Professions_dbo_MoviesViewModels_MoviesViewModel_MovieId" Association="Self.FK_dbo_Professions_dbo_MoviesViewModels_MoviesViewModel_MovieId">
+            <End Role="MoviesViewModels" EntitySet="MoviesViewModels" />
+            <End Role="Professions" EntitySet="Professions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_ProfessionTypes_dbo_MoviesViewModels_MoviesViewModel_MovieId" Association="Self.FK_dbo_ProfessionTypes_dbo_MoviesViewModels_MoviesViewModel_MovieId">
+            <End Role="MoviesViewModels" EntitySet="MoviesViewModels" />
+            <End Role="ProfessionTypes" EntitySet="ProfessionTypes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Professions_dbo_ProfessionTypes_ProfessionTypeId" Association="Self.FK_dbo_Professions_dbo_ProfessionTypes_ProfessionTypeId">
+            <End Role="ProfessionTypes" EntitySet="ProfessionTypes" />
+            <End Role="Professions" EntitySet="Professions" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="DataModel_MovApp">
+          <EntitySetMapping Name="C__MigrationHistory">
+            <EntityTypeMapping TypeName="Model.C__MigrationHistory">
+              <MappingFragment StoreEntitySet="__MigrationHistory">
+                <ScalarProperty Name="MigrationId" ColumnName="MigrationId" />
+                <ScalarProperty Name="ContextKey" ColumnName="ContextKey" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="ProductVersion" ColumnName="ProductVersion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Creators">
+            <EntityTypeMapping TypeName="Model.Creators">
+              <MappingFragment StoreEntitySet="Creators">
+                <ScalarProperty Name="CreatorId" ColumnName="CreatorId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Birthday" ColumnName="Birthday" />
+                <ScalarProperty Name="MoviesViewModel_MovieId" ColumnName="MoviesViewModel_MovieId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Genres">
+            <EntityTypeMapping TypeName="Model.Genres">
+              <MappingFragment StoreEntitySet="Genres">
+                <ScalarProperty Name="GenreId" ColumnName="GenreId" />
+                <ScalarProperty Name="GenreName" ColumnName="GenreName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MovieCheckBoxViewModels">
+            <EntityTypeMapping TypeName="Model.MovieCheckBoxViewModels">
+              <MappingFragment StoreEntitySet="MovieCheckBoxViewModels">
+                <ScalarProperty Name="CheckBoxId" ColumnName="CheckBoxId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Checked" ColumnName="Checked" />
+                <ScalarProperty Name="MoviesViewModel_MovieId" ColumnName="MoviesViewModel_MovieId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MovieCreatorProfessions">
+            <EntityTypeMapping TypeName="Model.MovieCreatorProfessions">
+              <MappingFragment StoreEntitySet="MovieCreatorProfessions">
+                <ScalarProperty Name="MovieCreatorProfessionId" ColumnName="MovieCreatorProfessionId" />
+                <ScalarProperty Name="MovieId" ColumnName="MovieId" />
+                <ScalarProperty Name="CreatorId" ColumnName="CreatorId" />
+                <ScalarProperty Name="ProfessionId" ColumnName="ProfessionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MovieGenres">
+            <EntityTypeMapping TypeName="Model.MovieGenres">
+              <MappingFragment StoreEntitySet="MovieGenres">
+                <ScalarProperty Name="MovieGenreId" ColumnName="MovieGenreId" />
+                <ScalarProperty Name="MovieId" ColumnName="MovieId" />
+                <ScalarProperty Name="GenreId" ColumnName="GenreId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Movies">
+            <EntityTypeMapping TypeName="Model.Movies">
+              <MappingFragment StoreEntitySet="Movies">
+                <ScalarProperty Name="MovieId" ColumnName="MovieId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Name_org" ColumnName="Name_org" />
+                <ScalarProperty Name="Premiere" ColumnName="Premiere" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MoviesViewModels">
+            <EntityTypeMapping TypeName="Model.MoviesViewModels">
+              <MappingFragment StoreEntitySet="MoviesViewModels">
+                <ScalarProperty Name="MovieId" ColumnName="MovieId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Name_org" ColumnName="Name_org" />
+                <ScalarProperty Name="Premiere" ColumnName="Premiere" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Professions">
+            <EntityTypeMapping TypeName="Model.Professions">
+              <MappingFragment StoreEntitySet="Professions">
+                <ScalarProperty Name="ProfessionId" ColumnName="ProfessionId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ProfessionTypeId" ColumnName="ProfessionTypeId" />
+                <ScalarProperty Name="MoviesViewModel_MovieId" ColumnName="MoviesViewModel_MovieId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProfessionTypes">
+            <EntityTypeMapping TypeName="Model.ProfessionTypes">
+              <MappingFragment StoreEntitySet="ProfessionTypes">
+                <ScalarProperty Name="ProfessionTypeId" ColumnName="ProfessionTypeId" />
+                <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+                <ScalarProperty Name="MoviesViewModel_MovieId" ColumnName="MoviesViewModel_MovieId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

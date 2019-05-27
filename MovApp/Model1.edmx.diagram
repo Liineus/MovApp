@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="566c26db21aa4a43bd1328850adb7740" Name="Diagram1" ZoomLevel="59">
+        <EntityTypeShape EntityType="Model.C__MigrationHistory" Width="1.5" PointX="19.375" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Creators" Width="1.5" PointX="13" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Genres" Width="1.5" PointX="6.125" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.MovieCheckBoxViewModels" Width="1.5" PointX="3" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.MovieCreatorProfessions" Width="1.5" PointX="10.375" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.MovieGenres" Width="1.5" PointX="9.125" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Movies" Width="1.5" PointX="8.25" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.MoviesViewModels" Width="1.5" PointX="5.75" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Professions" Width="1.5" PointX="10.375" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.ProfessionTypes" Width="1.5" PointX="6.25" PointY="8.625" IsExpanded="true" />
+        <AssociationConnector Association="Model.FK_dbo_Creators_dbo_MoviesViewModels_MoviesViewModel_MovieId" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_dbo_MovieCreatorProfessions_dbo_Creators_CreatorId" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_dbo_MovieGenres_dbo_Genres_GenreId" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_dbo_MovieCheckBoxViewModels_dbo_MoviesViewModels_MoviesViewModel_MovieId" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_dbo_MovieCreatorProfessions_dbo_Movies_MovieId" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_dbo_MovieCreatorProfessions_dbo_Professions_ProfessionId" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_dbo_MovieGenres_dbo_Movies_MovieId" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_dbo_Professions_dbo_MoviesViewModels_MoviesViewModel_MovieId" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_dbo_ProfessionTypes_dbo_MoviesViewModels_MoviesViewModel_MovieId" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_dbo_Professions_dbo_ProfessionTypes_ProfessionTypeId" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="Model.MovieImages" Width="1.5" PointX="0.5" PointY="0.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,42 @@
+﻿@model MovApp.Models.MovieCreatorProfession
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>MovieCreatorProfession</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Creator.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Creator.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Movie.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Movie.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Profession.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Profession.Name)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.MovieCreatorProfessionId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
